@@ -77,8 +77,8 @@ def extract_weather_data(driver, airport_code, year, month):
     
     city_name = driver.find_element(By.XPATH, '//h1[@_ngcontent-app-root-c176]/span[@_ngcontent-app-root-c176]').text
     print(city_name)
-
-    headers = ["Airport Code", "City Name", "Date"]
+    
+    headers = []
     data = []
 
     # Scrape the table headers
