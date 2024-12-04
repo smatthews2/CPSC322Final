@@ -14,8 +14,50 @@ import random
 
 from selenium.common.exceptions import TimeoutException
 
+# ufos = pd.read_excel('UFO_sightings_complete.xlsx')
+# ufos_us = ufos[ufos['country'] == 'us']
+# ufos_us.to_excel('temp.xlsx', index=False)
+
+# # Convert 'datetime' column to string data type and remove the last 5
+# #characters (time)
+# datetimee = ufos_us['datetime'].astype(str).str[:-8]
+# print(datetimee)
+# #Extract the year from the 'datetime' column
+# year = datetimee.str[:4]
+# print(year)
+# year = pd.to_numeric(year)
+# # # Add 1900 or 2000 to the extracted year based on its value
+# # year[year > 45] = year + 1900
+# # year[year <= 45] = 2000 + year
+# # Split the 'datetime' column into 'date' and 'month' columns
+# date = ufos_us['datetime'].str.split('/')
+
+# ufos_us['date'] = date.str[1]
+# ufos_us['month'] = date.str[0]
+# print(date.str[0], date.str[1])
+# # Add the 'year' column to the UFO dataset
+# ufos_us["year"] = year
+
+# randomsample = ufos_us.sample(10000)
+# # Replace the numerical month values with their respective month names
+# month_dict = {
+#     "1": "January", "2": "February", "3": "March", "4": "April", "5": "May", "6": "June",
+#     "7": "July", "8": "August", "9": "September", "10": "October", "11": "November", "12": "December"
+# }
+# randomsample['month'] = randomsample['month'].replace(month_dict)
+
+# # Convert the 'year' column to string and remove the decimal part
+# randomsample['year'] = randomsample['year'].astype(str).str[:-2]
+
+
+
+# # Combine 'date', 'month', 'year', 'city', and 'Unnamed: 0' columns into a single 'combined' column
+# randomsample['combined'] = randomsample['date'].astype(str) + ':' + randomsample['month'].astype(str) + \
+#                             ':' + randomsample['year'].astype(str) + ':' + randomsample['city'] + ':' + randomsample['Unnamed: 0'].astype(str)
+# randomsample.to_csv('randomsampleufos.csv')
+
 airport_codesok = pd.read_csv("hundredairports.csv")
-airport_codes = airport_codesok['ICAO'].values
+airport_codes = airport_codesok['icao'].values
 
 years_all = list(range(1965, 2014))
 months = range(1, 13)
@@ -33,7 +75,7 @@ def extract_weather_data(driver, airport_code, year, month):
         print(f"Timed out waiting for the table to load for {year}-{month}. Skipping this month.")
         return None, None
     
-    city_name = driver.find_element(By.XPATH, '//h1[@_ngcontent-app-root-c192]/span[@_ngcontent-app-root-c192]').text
+    city_name = driver.find_element(By.XPATH, '//h1[@_ngcontent-app-root-c176]/span[@_ngcontent-app-root-c176]').text
     print(city_name)
 
     headers = ["Airport Code", "City Name", "Date"]
