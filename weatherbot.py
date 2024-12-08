@@ -14,52 +14,10 @@ import random
 
 from selenium.common.exceptions import TimeoutException
 
-# ufos = pd.read_excel('UFO_sightings_complete.xlsx')
-# ufos_us = ufos[ufos['country'] == 'us']
-# ufos_us.to_excel('temp.xlsx', index=False)
+ufo_airport = pd.read_excel('ufos_airports.xlsx')
+airport_codes = ufo_airport['icao'].values
 
-# # Convert 'datetime' column to string data type and remove the last 5
-# #characters (time)
-# datetimee = ufos_us['datetime'].astype(str).str[:-8]
-# print(datetimee)
-# #Extract the year from the 'datetime' column
-# year = datetimee.str[:4]
-# print(year)
-# year = pd.to_numeric(year)
-# # # Add 1900 or 2000 to the extracted year based on its value
-# # year[year > 45] = year + 1900
-# # year[year <= 45] = 2000 + year
-# # Split the 'datetime' column into 'date' and 'month' columns
-# date = ufos_us['datetime'].str.split('/')
-
-# ufos_us['date'] = date.str[1]
-# ufos_us['month'] = date.str[0]
-# print(date.str[0], date.str[1])
-# # Add the 'year' column to the UFO dataset
-# ufos_us["year"] = year
-
-# randomsample = ufos_us.sample(10000)
-# # Replace the numerical month values with their respective month names
-# month_dict = {
-#     "1": "January", "2": "February", "3": "March", "4": "April", "5": "May", "6": "June",
-#     "7": "July", "8": "August", "9": "September", "10": "October", "11": "November", "12": "December"
-# }
-# randomsample['month'] = randomsample['month'].replace(month_dict)
-
-# # Convert the 'year' column to string and remove the decimal part
-# randomsample['year'] = randomsample['year'].astype(str).str[:-2]
-
-
-
-# # Combine 'date', 'month', 'year', 'city', and 'Unnamed: 0' columns into a single 'combined' column
-# randomsample['combined'] = randomsample['date'].astype(str) + ':' + randomsample['month'].astype(str) + \
-#                             ':' + randomsample['year'].astype(str) + ':' + randomsample['city'] + ':' + randomsample['Unnamed: 0'].astype(str)
-# randomsample.to_csv('randomsampleufos.csv')
-
-airport_codesok = pd.read_csv("hundredairports.csv")
-airport_codes = airport_codesok['icao'].values
-
-years_all = list(range(1965, 2014))
+years_all = list(range(2004, 2014)) # originally 1965
 months = range(1, 13)
 
 # Extract weather data from the website
@@ -77,7 +35,7 @@ def extract_weather_data(driver, airport_code, year, month):
     
     city_name = driver.find_element(By.XPATH, '//h1[@_ngcontent-app-root-c176]/span[@_ngcontent-app-root-c176]').text
     print(city_name)
-    
+
     headers = []
     data = []
 
@@ -131,7 +89,9 @@ def write_printed_output_to_excel(sheet, printed_output, airport_code, year, mon
     return row_offset + row_num - 1
 
 # Main script
-driver = webdriver.Chrome()
+options = webdriver.ChromeOptions()
+options.add_argument('--headless=new')
+driver = webdriver.Chrome(options=options)
 wb = Workbook()
 ws = wb.active
 row_offset = 0
@@ -168,3 +128,6 @@ wb.save("weather_data_combined2.xlsx")
 print("All data saved to weather_data_combined.xlsx\n")
 
 driver.quit()
+
+table_final = pd.merge(ufo_airport, pd.read_excel('weather_data_combined2.xlsx'))
+table_final.to_excel('merged_weather_ufo.xlsx', index=False)
