@@ -1,7 +1,6 @@
 import openpyxl
 from openpyxl import Workbook
 from openpyxl.utils import get_column_letter
-import time
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -11,13 +10,14 @@ import pandas as pd
 import datetime
 import re
 import random
+import numpy as np
 
 from selenium.common.exceptions import TimeoutException
 
 ufo_airport = pd.read_excel('ufos_airports.xlsx')
-airport_codes = ufo_airport['icao'].values
+airport_codes = np.unique(ufo_airport['icao'].values)
 
-years_all = list(range(2004, 2014)) # originally 1965
+years_all = list(range(2013, 2014)) # originally 1965
 months = range(1, 13)
 
 # Extract weather data from the website
@@ -98,10 +98,10 @@ row_offset = 0
 first_month = True
 
 for airport_code in airport_codes:
-    years = random.sample(years_all, k=10)
-
+    years = random.sample(years_all, k=1) # originally k=10
+    print(airport_codes)
     for year in years:
-        random_months = random.sample(list(months), k=3)
+        random_months = random.sample(list(months), k=3) # originally k=3
 
         for month in random_months:
             print(f"Scraping data for {airport_code} - {year}-{month}")
@@ -128,6 +128,6 @@ wb.save("weather_data_combined2.xlsx")
 print("All data saved to weather_data_combined.xlsx\n")
 
 driver.quit()
-
-table_final = pd.merge(ufo_airport, pd.read_excel('weather_data_combined2.xlsx'))
+# left_on=['icao', 'datetime'], right_on=ufo_airport.iloc[:, [0, 1]]
+table_final = pd.merge(ufo_airport, pd.read_excel('weather_data_combined2.xlsx'), 'outer', on=['icao', 'date'])
 table_final.to_excel('merged_weather_ufo.xlsx', index=False)

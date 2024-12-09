@@ -25,6 +25,7 @@ dataset = ufos_us.sample(1000) # Get 1,000 random UFO sightings
 dataset.to_excel('ufos_us.xlsx', index=False)
 
 dataset['datetime'] = pd.to_datetime(dataset['datetime']).dt.date
+dataset.rename(columns={'datetime':'date'}, inplace=True)
 
 weather = pd.read_csv('hundredairports.csv').drop(columns=['country_code', 'region_name', 'iata']) # Remove superfluous data.
 print(weather)
