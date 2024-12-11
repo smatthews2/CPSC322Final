@@ -1,2 +1,6 @@
 country_code,region_name,iata,icao,airport,latitude,longitude
-US,Kansas,BEC,KBEC,Beech Factory Airport,37.6945,-97.215
+US,Kansas,SLN,KSLN,Salina Regional Airport,38.791,-97.6522
+US,Tennessee,BNA,KBNA,Nashville International Airport,36.1245,-86.6782
+US,Alaska,KPC,PAPC,Port Clarence Coast Guard Station,65.2537,-166.859
+US,Texas,BGD,KBGD,Hutchinson County Airport,35.7009,-101.394
+US,Georgia,WRB,KWRB,Robins Air Force Base,32.6401,-83.5919

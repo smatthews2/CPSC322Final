@@ -15,13 +15,13 @@ def filter_icao_values(num_airports):
     table2.data = random.sample(table2.data, num_airports)      
     table2.save_to_file('hundredairports.csv')
 
-filter_icao_values(1)
+filter_icao_values(5) # Get 100 airports.
 
 ufos = pd.read_excel('UFO_sightings_complete.xlsx').drop(columns=['shape', 'duration (seconds)', 'duration (hours/min)'\
                                                    , 'comments', 'date posted'])
 ufos_us = ufos[ufos['country'] == 'us']
 ufos_us.drop(columns=['country']) # We don't need this anymore.
-dataset = ufos_us.sample(1000) # Get 1,000 random UFO sightings
+dataset = ufos_us.sample(1000) # Get 10,000 random UFO sightings.
 dataset.to_excel('ufos_us.xlsx', index=False)
 
 dataset['datetime'] = pd.to_datetime(dataset['datetime']).dt.date
