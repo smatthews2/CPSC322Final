@@ -125,6 +125,11 @@ if __name__ == "__main__":
         # Calculate accuracy
         accuracy = sum(1 for pred, true in zip(knn_predictions, y_test) if pred == true) / len(y_test)
         print("KNN Accuracy:", accuracy)
+        
+        # Debugging: Print predictions and actual values
+        print("Predictions vs Actuals:")
+        for pred, actual in zip(knn_predictions, y_test):
+            print(f"Predicted: {pred}, Actual: {actual}")
 
     except Exception as e:
         print(f"Error: {e}")

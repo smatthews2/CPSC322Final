@@ -133,7 +133,7 @@ if __name__ == "__main__":
 
         # Calculate accuracy
         accuracy = sum(1 for pred, true in zip(nb_predictions, y_test) if pred == true) / len(y_test)
-        print("Naive Bayes Accuracy:", accuracy)
+        print("Naive Bayes Accuracy:", accuracy)              
 
         # Debugging: Print predictions and actual values
         print("Predictions vs Actuals:")

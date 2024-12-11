@@ -220,5 +220,10 @@ if __name__ == "__main__":
         rf_predictions = rf_classifier.predict(X_test)
         print("Random Forest Accuracy:", sum(1 for pred, true in zip(rf_predictions, y_test) if pred == true) / len(y_test))
 
+        # Debugging: Print predictions and actual values
+        print("Predictions vs Actuals:")
+        for pred, actual in zip(rf_predictions, y_test):
+            print(f"Predicted: {pred}, Actual: {actual}")
+
     except Exception as e:
         print(f"Error: {e}")
